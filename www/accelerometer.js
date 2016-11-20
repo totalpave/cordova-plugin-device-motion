@@ -47,7 +47,7 @@ var eventTimerId = null;
 function start() {
     exec(function (a) {
         var tempListeners = listeners.slice(0);
-        accel = new Acceleration(a.x, a.y, a.z, a.timestamp);
+        accel = new Acceleration(a.x, a.y, a.z, a.timestamp, a.accuracy);
         for (var i = 0, l = tempListeners.length; i < l; i++) {
             tempListeners[i].win(accel);
         }
@@ -84,6 +84,25 @@ function removeListeners(l) {
 }
 
 var accelerometer = {
+    SENSOR_STATUS_ACCURACY_HIGH     : 3,
+    SENSOR_STATUS_ACCURACY_MEDIUM   : 2,
+    SENSOR_STATUS_ACCURACY_LOW      : 1,
+    SENSOR_STATUS_UNRELIABLE        : 0,
+    SENSOR_STATUS_NO_CONTACT        : -1,
+
+    getHardwareInfo : function(callback) {
+        if (!callback) {
+            callback = function() {};
+        }
+
+        return exec(function success(hardware) {
+            console.log(hardware);
+            callback(null, hardware);
+        }, function fail(err) {
+            return callback(err);
+        }, 'Accelerometer', 'getHardwareInfo', []);
+    },
+
     /**
      * Asynchronously acquires the current acceleration.
      *
@@ -96,7 +115,7 @@ var accelerometer = {
 
         if (cordova.platformId === "windowsphone") {
             exec(function (a) {
-                accel = new Acceleration(a.x, a.y, a.z, a.timestamp);
+                accel = new Acceleration(a.x, a.y, a.z, a.timestamp, a.accuracy);
                 successCallback(accel);
             }, function (e) {
                 errorCallback(e);

@@ -111,6 +111,11 @@ public class AccelListener extends CordovaPlugin implements SensorEventListener 
             if (this.status == AccelListener.RUNNING) {
                 this.stop();
             }
+        } 
+        else if (action.equals("getHardwareInfo")) {
+            PluginResult result = new PluginResult(PluginResult.Status.OK, getHardwareInfo());
+            callbackContext.sendPluginResult(result);
+            return true;
         } else {
           // Unsupported action
             return false;
@@ -154,7 +159,7 @@ public class AccelListener extends CordovaPlugin implements SensorEventListener 
         // If found, then register as listener
         if ((list != null) && (list.size() > 0)) {
           this.mSensor = list.get(0);
-          if (this.sensorManager.registerListener(this, this.mSensor, 10000)) {
+          if (this.sensorManager.registerListener(this, this.mSensor, SensorManager.SENSOR_DELAY_FASTEST)) {
               this.setStatus(AccelListener.STARTING);
               // CB-11531: Mark accuracy as 'reliable' - this is complementary to
               // setting it to 'unreliable' 'stop' method
@@ -303,8 +308,35 @@ public class AccelListener extends CordovaPlugin implements SensorEventListener 
             r.put("y", this.y);
             r.put("z", this.z);
             r.put("timestamp", this.timestamp);
+            r.put("accuracy", this.accuracy);
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        return r;
+    }
+
+    private JSONObject getHardwareInfo() {
+        JSONObject r = new JSONObject();
+
+        List<Sensor> list = this.sensorManager.getSensorList(Sensor.TYPE_ACCELEROMETER);
+
+        // If found, then register as listener
+        if ((list != null) && (list.size() > 0)) {
+            Sensor mSensor = list.get(0);
+
+            try {
+                r.put("name", mSensor.getName());
+                r.put("minDelay", mSensor.getMinDelay());
+                r.put("maxDelay", mSensor.getMaxDelay());
+                r.put("vendor", mSensor.getVendor());
+                r.put("version", mSensor.getVersion());
+                r.put("maxRange", mSensor.getMaximumRange());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            return null;
         }
         return r;
     }

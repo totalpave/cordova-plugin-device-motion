@@ -19,11 +19,12 @@
  *
 */
 
-var Acceleration = function(x, y, z, timestamp) {
+var Acceleration = function(x, y, z, timestamp, accuracy) {
     this.x = x;
     this.y = y;
     this.z = z;
     this.timestamp = timestamp || (new Date()).getTime();
+    this.accuracy = accuracy;
 };
 
 module.exports = Acceleration;
