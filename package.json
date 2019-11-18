@@ -1,5 +1,5 @@
 {
-  "name": "@totalpave/cordova-plugin-device-motion",
+  "name": "cordova-plugin-device-motion",
   "version": "1.0.0",
   "description": "Cordova Device Motion Plugin",
   "totalpave": {
