@@ -19,6 +19,12 @@
  *
 */
 
+/*
+    Modications
+    - Added Accelartion accuracy usage
+    - Added getHardwareInfo usage
+*/
+
 /**
  * This class provides access to device accelerometer data.
  * @constructor

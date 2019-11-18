@@ -19,6 +19,11 @@
  *
 */
 
+/*
+	Modifications
+	- Added accuracy
+*/
+
 var Acceleration = function(x, y, z, timestamp, accuracy) {
     this.x = x;
     this.y = y;
