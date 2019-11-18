@@ -19,8 +19,8 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-           id="cordova-plugin-device-motion"
-      version="1.2.3-dev">
+           id="@totalpave/cordova-plugin-device-motion"
+      version="1.0.0">
 	
     <name>Device Motion</name>
     <description>Cordova Device Motion Plugin</description>
